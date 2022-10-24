@@ -4,7 +4,7 @@ PLUGIN_MODULES := \
 	packet_plugin_rjv3
 
 # Linux
-PLUGIN_MODULES += if_impl_sockraw
+#PLUGIN_MODULES += if_impl_sockraw
 
 # macOS / BSD
 # PLUGIN_MODULES += if_impl_bpf
@@ -25,9 +25,9 @@ STATIC_BUILD  := false
 # Affects dynamic linking
 LIBICONV_STANDALONE := false
 
-CUSTOM_CFLAGS :=
+CUSTOM_CFLAGS := 
 CUSTOM_LDFLAGS :=
-CUSTOM_LIBS :=
+CUSTOM_LIBS := -liconv
 
 # Example for cross-compiling
 # CC := arm-brcm-linux-uclibcgnueabi-gcc

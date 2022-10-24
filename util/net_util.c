@@ -54,8 +54,8 @@ RESULT obtain_iface_mac(const char* ifname, uint8_t* adr_buf) {
                 memmove(adr_buf, ((struct sockaddr_ll*)if_curr->ifa_addr)->sll_addr, 6);
             }
 #else
-            if (if_curr->ifa_addr->sa_family == AF_LINK) {
-                memmove(adr_buf, LLADDR((struct sockaddr_dl*)if_curr->ifa_addr), 6);
+            if (if_curr->ifa_addr->sa_family == AF_HYLINK) {
+                memmove(adr_buf, (void*)((struct sockaddr_dl*)if_curr->ifa_addr), 6);
             }
 #endif
         }
@@ -356,6 +356,16 @@ RESULT obtain_iface_ipv4_gateway(const char* ifname, uint8_t* _buf) {
     }
 
     free(buf);
+    return FAILURE;
+}
+#else 
+// see mentohust, there is no option to gaining gateway from server
+// just set it by config or use default 0.0.0.0
+RESULT obtain_iface_ipv4_gateway(const char* ifname, uint8_t* _buf) {
+    PR_WARN("unsupported platform, would return 0.0.0.0");
+    uint8_t msg_buf[BUFSIZ];
+    int len, msg_seq = 0, rand_pid = rand() % 65536;
+
     return FAILURE;
 }
 #endif
